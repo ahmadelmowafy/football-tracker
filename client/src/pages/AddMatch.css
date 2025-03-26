@@ -1,0 +1,203 @@
+.add-match-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.match-form {
+  background-color: #ddd;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.teams-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  margin-bottom: 2rem;
+}
+
+.team-box {
+  flex: 0 0 30%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scorer-info {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.team-box.left .scorer-info {
+  justify-content: flex-end;
+}
+
+.team-box.right .scorer-info {
+  justify-content: flex-start;
+}
+
+.team-box input[name$='Team'] {
+  width: 100%;
+  max-width: 260px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.score-box {
+  flex: 0 0 120px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  height: 100px; /* Matches approximate logo height for vertical centering */
+}
+
+.score-box input[type='number'] {
+  width: 40px;
+  padding: 0.4rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.scorers-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.scorers-box input {
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  width: 48%;
+}
+
+button[type='button'] {
+  background: none;
+  border: none;
+  color: #4c66c3;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+}
+
+.match-stats {
+  margin-top: 2rem;
+  background-color: #b3b3b3;
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.match-stats label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.match-stats input {
+  padding: 0.4rem;
+  font-size: 1rem;
+  width: 45%;
+}
+
+.save-btn {
+  margin-top: 2rem;
+  background-color: #4c66c3;
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.team-logo {
+  width: 80px;
+  height: 100px;
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
+.match-stats-3col {
+  margin-top: 2rem;
+  background-color: #b3b3b3;
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.stat-row input {
+  width: 60px;
+  padding: 0.4rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.stat-row label {
+  width: 120px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.scorer-info input {
+  padding: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.scorer-info input[name$='Scorer[]'] {
+  width: 140px;
+}
+
+.scorer-info input[name$='Minute[]'] {
+  width: 60px;
+  text-align: center;
+}
+
+.match-date-wrapper {
+  margin-bottom: 1rem;
+}
+
+.match-date-wrapper label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.match-date-wrapper input[type='date'] {
+  margin-left: 0.5rem;
+  padding: 0.4rem;
+  font-size: 1rem;
+}
+
+.remove-scorer-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding-right: 0.5rem;
+}
