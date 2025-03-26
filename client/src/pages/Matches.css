@@ -1,0 +1,27 @@
+.add-match-button {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #4c66c3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.match-list {
+  list-style: none;
+  padding: 0;
+}
+
+.match-item {
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  background-color: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.match-item:hover {
+  background-color: #ddd;
+}

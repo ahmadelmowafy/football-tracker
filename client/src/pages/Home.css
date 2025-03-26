@@ -1,0 +1,20 @@
+.home-container {
+  max-width: 800px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: #54b11e;
+  color: white;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.home-container h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.home-container p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
