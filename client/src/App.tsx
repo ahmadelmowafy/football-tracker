@@ -10,6 +10,7 @@ import EditTeam from './pages/EditTeam';
 import AddMatch from './pages/AddMatch';
 import Matches from './pages/Matches';
 import MatchDetail from './pages/MatchDetail';
+import EditMatch from './pages/EditMatch';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/matches" element={<Matches />} />
           <Route path="/add-match" element={<AddMatch />} />
           <Route path="/matches/:matchId" element={<MatchDetail />} />
+          <Route path="/matches/:matchId/edit" element={<EditMatch />} />
         </Routes>
       </main>
     </>

@@ -225,9 +225,9 @@ app.post('/api/matches', async (req, res, next) => {
   try {
     const {
       userId,
+      matchDate,
       homeTeamName,
       awayTeamName,
-      matchDate,
       homeScore,
       awayScore,
       homeScorers,
@@ -248,7 +248,7 @@ app.post('/api/matches', async (req, res, next) => {
     const sql = `
       insert into "matches" (
         "userId",
-        "homeTeamName", "awayTeamName", "matchDate", "homeScore", "awayScore",
+        "matchDate", "homeTeamName", "awayTeamName", "homeScore", "awayScore",
         "homeScorers", "awayScorers", "homeTeamPossession",
         "awayTeamPossession", "homeTeamShots", "awayTeamShots",
         "homeTeamShotsOnTarget", "awayTeamShotsOnTarget",
@@ -260,9 +260,9 @@ app.post('/api/matches', async (req, res, next) => {
     `;
     const params = [
       userId,
+      matchDate,
       homeTeamName,
       awayTeamName,
-      matchDate,
       homeScore,
       awayScore,
       homeScorers,
@@ -293,9 +293,9 @@ app.put('/api/matches/:matchId', async (req, res, next) => {
   try {
     const { matchId } = req.params;
     const {
+      matchDate,
       homeTeamName,
       awayTeamName,
-      matchDate,
       homeScore,
       awayScore,
       homeScorers,
@@ -316,33 +316,32 @@ app.put('/api/matches/:matchId', async (req, res, next) => {
 
     const sql = `
       update "matches" set
-        "userId" = $1
+        "matchDate" = $1,
         "homeTeamName" = $2,
         "awayTeamName" = $3,
-        "matchDate" = $4,
-        "homeScore" = $5,
-        "awayScore" = $6,
-        "homeScorers" = $7,
-        "awayScorers" = $8,
-        "homeTeamPossession" = $9,
-        "awayTeamPossession" = $10,
-        "homeTeamShots" = $11,
-        "awayTeamShots" = $12,
-        "homeTeamShotsOnTarget" = $13,
-        "awayTeamShotsOnTarget" = $14,
-        "homeTeamFouls" = $15,
-        "awayTeamFouls" = $16,
-        "homeTeamCorners" = $17,
-        "awayTeamCorners" = $18,
-        "homeTeamOffsides" = $19,
-        "awayTeamOffsides" = $20
-      where "id" = $21
+        "homeScore" = $4,
+        "awayScore" = $5,
+        "homeScorers" = $6,
+        "awayScorers" = $7,
+        "homeTeamPossession" = $8,
+        "awayTeamPossession" = $9,
+        "homeTeamShots" = $10,
+        "awayTeamShots" = $11,
+        "homeTeamShotsOnTarget" = $12,
+        "awayTeamShotsOnTarget" = $13,
+        "homeTeamFouls" = $14,
+        "awayTeamFouls" = $15,
+        "homeTeamCorners" = $16,
+        "awayTeamCorners" = $17,
+        "homeTeamOffsides" = $18,
+        "awayTeamOffsides" = $19
+      where "id" = $20
       returning *;
     `;
     const params = [
+      matchDate,
       homeTeamName,
       awayTeamName,
-      matchDate,
       homeScore,
       awayScore,
       homeScorers,

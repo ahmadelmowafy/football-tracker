@@ -23,12 +23,12 @@ INSERT INTO "players" ("teamId", "name", "country", "position", "number") VALUES
 (1, 'David Johnson', 'USA', 'Forward', 9);
 
 -- Insert Matches
-INSERT INTO matches ("userId", "homeTeamName", "awayTeamName", "matchDate", "homeScore", "awayScore",
+INSERT INTO matches ("userId", "matchDate", "homeTeamName", "awayTeamName", "homeScore", "awayScore",
                        "homeScorers", "awayScorers", "homeTeamPossession",
                        "awayTeamPossession", "homeTeamShots", "awayTeamShots",
                        "homeTeamShotsOnTarget", "awayTeamShotsOnTarget",
                        "homeTeamFouls", "awayTeamFouls", "homeTeamCorners",
                        "awayTeamCorners", "homeTeamOffsides", "awayTeamOffsides")
 VALUES
-(1, 'Seattle Sounders', 'LA Galaxy', '2024-08-08', 3, 1, 'Andrade 4'', Ragen 7'', Roldan 45''', 'Gabriel Pec 83''',
+(1, '2024-08-08', 'Seattle Sounders', 'LA Galaxy', 3, 1, 'Andrade 4'', Ragen 7'', Roldan 45''', 'Gabriel Pec 83''',
  37, 63, 21, 8, 12, 2, 13, 8, 13, 6, 0, 1);

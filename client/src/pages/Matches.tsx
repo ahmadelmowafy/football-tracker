@@ -6,6 +6,8 @@ type Match = {
   id: number;
   homeTeamName: string;
   awayTeamName: string;
+  homeScore: number;
+  awayScore: number;
 };
 
 export default function Matches() {
@@ -15,8 +17,8 @@ export default function Matches() {
   useEffect(() => {
     async function fetchMatches() {
       try {
-        const userJson = localStorage.getItem('user');
-        const user = userJson ? JSON.parse(userJson) : null;
+        const userJSON = localStorage.getItem('user');
+        const user = userJSON && JSON.parse(userJSON);
         if (!user) {
           alert('You must be signed in to view your matches.');
           return;
@@ -34,6 +36,24 @@ export default function Matches() {
     fetchMatches();
   }, []);
 
+  async function handleDelete(matchId: number) {
+    const confirmed = confirm('Are you sure you want to delete this match?');
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/api/matches/${matchId}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) throw new Error('Failed to delete match');
+
+      setMatches((prev) => prev.filter((m) => m.id !== matchId));
+    } catch (err) {
+      console.error(err);
+      alert('Could not delete the match.');
+    }
+  }
+
   return (
     <div className="matches-page">
       <h2>Matches</h2>
@@ -45,11 +65,20 @@ export default function Matches() {
 
       <ul className="match-list">
         {matches.map((match) => (
-          <li
-            key={match.id}
-            className="match-item"
-            onClick={() => navigate(`/matches/${match.id}`)}>
-            {match.homeTeamName} vs. {match.awayTeamName}
+          <li key={match.id} className="match-item">
+            <span
+              className="match-title"
+              onClick={() => navigate(`/matches/${match.id}`)}>
+              {match.homeTeamName} {match.homeScore} - {match.awayScore}{' '}
+              {match.awayTeamName}
+            </span>
+
+            <div className="match-actions">
+              <button onClick={() => navigate(`/matches/${match.id}/edit`)}>
+                ✏️ Edit
+              </button>
+              <button onClick={() => handleDelete(match.id)}>🗑️ Delete</button>
+            </div>
           </li>
         ))}
       </ul>

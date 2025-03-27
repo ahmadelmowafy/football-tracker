@@ -116,6 +116,12 @@ button[type='button'] {
   width: 45%;
 }
 
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .save-btn {
   margin-top: 2rem;
   background-color: #4c66c3;
@@ -125,6 +131,16 @@ button[type='button'] {
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.cancel-btn {
+  background-color: #bbb !important;
+  color: white !important;
+  padding: 0.6rem 1.5rem !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
 }
 
 .team-logo {
