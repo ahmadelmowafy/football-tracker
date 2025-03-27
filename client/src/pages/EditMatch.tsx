@@ -1,10 +1,115 @@
-import { FormEvent, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState, FormEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './AddMatch.css';
 
-export default function AddMatch() {
+type Match = {
+  id: number;
+  matchDate: string;
+  homeTeamName: string;
+  awayTeamName: string;
+  homeScore: number;
+  awayScore: number;
+  homeScorers: string;
+  awayScorers: string;
+  homeTeamPossession: number;
+  awayTeamPossession: number;
+  homeTeamShots: number;
+  awayTeamShots: number;
+  homeTeamShotsOnTarget: number;
+  awayTeamShotsOnTarget: number;
+  homeTeamFouls: number;
+  awayTeamFouls: number;
+  homeTeamCorners: number;
+  awayTeamCorners: number;
+  homeTeamOffsides: number;
+  awayTeamOffsides: number;
+};
+
+export default function EditMatch() {
+  const { matchId } = useParams();
   const ref = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const [match, setMatch] = useState(null);
+
+  useEffect(() => {
+    async function fetchMatch() {
+      try {
+        const res = await fetch(`/api/matches/${matchId}`);
+        if (!res.ok) throw new Error('Match not found');
+        const data = await res.json();
+        setMatch(data);
+        populateForm(data);
+      } catch (err) {
+        console.error(err);
+        alert('Could not load match.');
+      }
+    }
+
+    function populateForm(match: Match) {
+      if (!ref.current) return;
+
+      const form = ref.current;
+      form.matchDate.value = match.matchDate;
+      form.homeTeam.value = match.homeTeamName;
+      form.awayTeam.value = match.awayTeamName;
+      form.homeScore.value = match.homeScore;
+      form.awayScore.value = match.awayScore;
+
+      form.homeTeamPossession.value = match.homeTeamPossession;
+      form.awayTeamPossession.value = match.awayTeamPossession;
+      form.homeTeamShots.value = match.homeTeamShots;
+      form.awayTeamShots.value = match.awayTeamShots;
+      form.homeTeamShotsOnTarget.value = match.homeTeamShotsOnTarget;
+      form.awayTeamShotsOnTarget.value = match.awayTeamShotsOnTarget;
+      form.homeTeamFouls.value = match.homeTeamFouls;
+      form.awayTeamFouls.value = match.awayTeamFouls;
+      form.homeTeamCorners.value = match.homeTeamCorners;
+      form.awayTeamCorners.value = match.awayTeamCorners;
+      form.homeTeamOffsides.value = match.homeTeamOffsides;
+      form.awayTeamOffsides.value = match.awayTeamOffsides;
+
+      populateScorers('home', match.homeScorers);
+      populateScorers('away', match.awayScorers);
+    }
+
+    function populateScorers(team: string, scorerString: string) {
+      const container = document.getElementById(`${team}-scorers`);
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      const scorers = scorerString.split(',').map((s) => s.trim());
+      scorers.forEach((entry) => {
+        const [name, minuteRaw] = entry.split(' ');
+        const minute = minuteRaw?.replace("'", '') || '';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'scorer-info';
+
+        const nameInput = document.createElement('input');
+        nameInput.name = `${team}Scorer`;
+        nameInput.placeholder = 'Scorer';
+        nameInput.value = name;
+
+        const minInput = document.createElement('input');
+        minInput.name = `${team}Minute`;
+        minInput.placeholder = 'min';
+        minInput.value = minute;
+
+        const removeButton = document.createElement('button');
+        removeButton.textContent = '❌';
+        removeButton.className = 'remove-scorer-button';
+        removeButton.onclick = () => container.removeChild(wrapper);
+
+        wrapper.appendChild(removeButton);
+        wrapper.appendChild(nameInput);
+        wrapper.appendChild(minInput);
+        container.appendChild(wrapper);
+      });
+    }
+
+    fetchMatch();
+  }, [matchId]);
 
   function addScorer(team: string) {
     const scorerInfoContainer = document.getElementById(`${team}-scorers`);
@@ -44,20 +149,15 @@ export default function AddMatch() {
         scorers.push(`${names[i]} ${minutes[i]}'`);
       }
     }
-    const allScorers = scorers.join(', ');
-    return allScorers;
+    return scorers.join(', ');
   }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    const form = event.target;
-    const formData = new FormData(form as HTMLFormElement);
-
-    const userJson = localStorage.getItem('user');
-    const user = userJson && JSON.parse(userJson);
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
 
     const matchData = {
-      userId: user?.id,
       matchDate: formData.get('matchDate'),
       homeTeamName: formData.get('homeTeam'),
       awayTeamName: formData.get('awayTeam'),
@@ -80,24 +180,25 @@ export default function AddMatch() {
     };
 
     try {
-      const res = await fetch('/api/matches', {
-        method: 'POST',
+      const res = await fetch(`/api/matches/${matchId}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(matchData),
       });
 
-      if (!res.ok) throw new Error('Failed to save match');
+      if (!res.ok) throw new Error('Failed to update match');
 
-      const createdMatch = await res.json();
-      navigate(`/matches/${createdMatch.id}`);
+      navigate(`/matches/${matchId}`);
     } catch (err) {
-      alert(`Something went wrong while saving the match.\n${err}`);
+      alert(`Something went wrong while updating the match.\n${err}`);
     }
   }
 
+  if (!match) return <p>Loading match...</p>;
+
   return (
     <div className="add-match-container">
-      <h2>Add New Match</h2>
+      <h2>Edit Match</h2>
       <form onSubmit={handleSubmit} ref={ref} className="match-form">
         <div className="match-date-wrapper">
           <label>
@@ -105,6 +206,7 @@ export default function AddMatch() {
             <input type="date" name="matchDate" required />
           </label>
         </div>
+
         <div className="teams-row">
           <div className="team-box left">
             <img
@@ -120,9 +222,9 @@ export default function AddMatch() {
           </div>
 
           <div className="score-box">
-            <input type="number" name="homeScore" placeholder="0" required />
+            <input type="number" name="homeScore" required />
             <span>-</span>
-            <input type="number" name="awayScore" placeholder="0" required />
+            <input type="number" name="awayScore" required />
           </div>
 
           <div className="team-box right">
@@ -179,7 +281,7 @@ export default function AddMatch() {
 
         <div className="btn-container">
           <button type="submit" className="save-btn">
-            SAVE
+            SAVE CHANGES
           </button>
 
           <button

@@ -18,20 +18,16 @@ export default function SignIn() {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Invalid login');
-      }
+      if (!res.ok) throw new Error('Invalid login');
 
       const { token, user } = await res.json();
 
-      // temporarliy using localstorage to track user state ( use context later)
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
 
       navigate('/');
     } catch (err: any) {
-      setError(err.message ? err.message : 'login failed');
+      setError(err.message || 'login failed');
     }
   }
 

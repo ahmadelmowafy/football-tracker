@@ -1,8 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './Navbar.css';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  function handleSignOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setIsLoggedIn(false);
+    navigate('/');
+  }
 
   async function handleMyTeamClick() {
     const userJson = localStorage.getItem('user');
@@ -16,7 +30,6 @@ export default function Navbar() {
     try {
       const res = await fetch(`/api/user/${user.id}/team`);
       if (!res.ok) {
-        // No team exists → go to Create Team
         return navigate('/create-team');
       }
 
@@ -42,8 +55,6 @@ export default function Navbar() {
       if (!res.ok) {
         throw new Error('an unexpected error occurred');
       }
-
-      // const team = await res.json(); <-- Most likely will be deleted
       navigate(`/matches`);
     } catch (err) {
       console.error('Error viewing matches:', err);
@@ -70,9 +81,15 @@ export default function Navbar() {
           </button>
         </li>
         <li className="auth-link">
-          <Link to="/sign-in" className="nav-link">
-            Sign In
-          </Link>
+          {isLoggedIn ? (
+            <button onClick={handleSignOut} className="nav-link">
+              Sign Out
+            </button>
+          ) : (
+            <Link to="/sign-in" className="nav-link">
+              Sign In
+            </Link>
+          )}
         </li>
       </ul>
     </nav>

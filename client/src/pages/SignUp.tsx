@@ -24,9 +24,7 @@ export default function SignUp() {
         body: JSON.stringify({ username, password }),
       });
 
-      if (!res.ok) {
-        throw new Error('registration failed');
-      }
+      if (!res.ok) throw new Error('registration failed');
 
       navigate('/sign-in');
       alert('account created successfully');
