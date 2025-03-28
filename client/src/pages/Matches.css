@@ -1,45 +1,101 @@
 .add-match-button {
-  margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.6rem 1.2rem;
   background-color: #4c66c3;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.add-match-button:hover {
+  background-color: #3a52a2;
 }
 
 .match-list {
   list-style: none;
   padding: 0;
+  margin-top: 1rem;
 }
 
 .match-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
+  padding: 1rem 1.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.2s ease;
 }
 
 .match-item:hover {
-  background-color: #ddd;
+  background-color: #e3eaf6;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.match-list .match-item:nth-child(even) {
+  background-color: #f1f5fb;
+}
+
+.match-list .match-item:nth-child(odd) {
+  background-color: #fff;
 }
 
 .match-title {
   flex-grow: 1;
+  font-size: 1.1rem;
+  font-weight: 500;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: #333;
+}
+
+.match-title span.team {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.match-title span.score {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.match-actions {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .match-actions button {
-  margin-left: 0.5rem;
-  background: none;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 0.95rem;
-  color: #444;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.match-actions button:hover {
+.match-actions button:first-child {
+  background-color: #f0f4ff;
+  color: #2a4dbf;
+}
+
+.match-actions button:last-child {
+  background-color: #ffecec;
   color: #c00;
+}
+
+.match-actions button:first-child:hover {
+  background-color: #d7e2ff;
+}
+
+.match-actions button:last-child:hover {
+  background-color: #fdd;
 }

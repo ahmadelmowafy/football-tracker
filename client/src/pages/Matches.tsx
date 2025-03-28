@@ -69,8 +69,11 @@ export default function Matches() {
             <span
               className="match-title"
               onClick={() => navigate(`/matches/${match.id}`)}>
-              {match.homeTeamName} {match.homeScore} - {match.awayScore}{' '}
-              {match.awayTeamName}
+              <span className="team">{match.homeTeamName}</span>
+              <span className="score">
+                {match.homeScore} - {match.awayScore}
+              </span>
+              <span className="team">{match.awayTeamName}</span>
             </span>
 
             <div className="match-actions">

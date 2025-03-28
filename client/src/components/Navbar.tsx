@@ -82,7 +82,7 @@ export default function Navbar() {
         </li>
         <li className="auth-link">
           {isLoggedIn ? (
-            <button onClick={handleSignOut} className="nav-link">
+            <button onClick={handleSignOut} className="signout-link">
               Sign Out
             </button>
           ) : (
