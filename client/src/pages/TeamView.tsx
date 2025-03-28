@@ -65,8 +65,8 @@ export default function TeamView() {
     return (
       <div key={player.id} className="player-card">
         <p className="player-name">{player.name}</p>
-        <p>#{player.number}</p>
-        <p>{player.country}</p>
+        <p className="player-number">#{player.number}</p>
+        <p className="player-country">{player.country}</p>
       </div>
     );
   }

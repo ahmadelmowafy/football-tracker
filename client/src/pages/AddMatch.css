@@ -32,6 +32,22 @@
   display: flex;
   gap: 0.5rem;
   width: 100%;
+  align-items: center;
+}
+
+.scorer-info input[name$='Scorer'] {
+  flex: 3;
+  min-width: 120px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.scorer-info input[name$='Minute'] {
+  flex: 1;
+  min-width: 50px;
+  padding: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
 }
 
 .team-box.left .scorer-info {
@@ -57,17 +73,25 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.9rem;
   font-size: 1.5rem;
   font-weight: bold;
-  height: 100px; /* Matches approximate logo height for vertical centering */
+  height: 100px;
 }
 
 .score-box input[type='number'] {
-  width: 40px;
-  padding: 0.4rem;
+  width: 50px;
+  height: 40px;
+  padding: 0.5rem;
+  font-size: 1.5rem;
   text-align: center;
-  font-size: 1rem;
+  border: 2px solid #bbb;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.dash-symbol {
+  font-size: 2.5rem;
 }
 
 .scorers-box {
@@ -119,33 +143,48 @@ button[type='button'] {
 .btn-container {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.save-btn,
+.cancel-btn {
+  height: 50px !important;
+  width: 140px !important;
+  padding: 0.65rem 1.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s ease !important;
 }
 
 .save-btn {
-  margin-top: 2rem;
   background-color: #4c66c3;
   color: white;
-  padding: 0.6rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+  margin-right: 5rem;
+  margin-bottom: 0.75rem;
+}
+
+.save-btn:hover {
+  background-color: #3a52a2;
 }
 
 .cancel-btn {
-  background-color: #bbb !important;
-  color: white !important;
-  padding: 0.6rem 1.5rem !important;
-  border: none !important;
-  border-radius: 6px !important;
-  font-weight: bold !important;
-  cursor: pointer !important;
+  background-color: #afabab !important;
+  color: #5f5d5d !important;
+}
+
+.cancel-btn:hover {
+  background-color: #b7b7b7;
 }
 
 .team-logo {
-  width: 80px;
-  height: 100px;
+  width: 140px;
+  height: 160px;
   margin-bottom: 1rem;
   object-fit: contain;
 }

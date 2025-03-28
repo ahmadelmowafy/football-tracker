@@ -1,33 +1,57 @@
 .navbar {
-  background-color: #4c66c3;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: white;
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
 }
 
 .nav-list {
-  list-style: none;
   display: flex;
-  gap: 2rem;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
 
 .nav-link {
+  background-color: transparent;
+  color: white;
   text-decoration: none;
-  color: white !important;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: color 0.2s ease;
-  background: none;
+  font-weight: 500;
+  font-size: 1rem;
   border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
   cursor: pointer;
-  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-link:hover {
-  color: #cbd6ff;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .auth-link {
   margin-left: auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.auth-link .nav-link {
+  color: white;
+}
+
+.signout-link {
+  background-color: transparent;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

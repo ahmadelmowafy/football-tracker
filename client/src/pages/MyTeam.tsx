@@ -89,10 +89,11 @@ export default function MyTeam() {
     <div className="my-team-container">
       <h2>Create Your Team</h2>
       <form onSubmit={handleSubmit} className="team-form">
-        <label>
+        <label className="team-name">
           Team Name
           <input
             type="text"
+            className="team-name-input"
             value={teamName}
             onChange={(event) => setTeamName(event.target.value)}
             required

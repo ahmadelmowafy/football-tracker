@@ -63,13 +63,13 @@ export default function MatchDetail() {
           <div className="team-name">{match.awayTeamName}</div>
         </div>
 
-        <p className="match-date">
-          {new Date(match.matchDate).toLocaleDateString()}
-        </p>
+        <p className="match-date">{match.matchDate}</p>
 
         {(match.homeScorers || match.awayScorers) && (
           <p className="scorers-line">
-            {[match.homeScorers, match.awayScorers].filter(Boolean).join(', ')}
+            {match.homeScorers}
+            {match.homeScorers && match.awayScorers && ', '}
+            {match.awayScorers}
           </p>
         )}
 

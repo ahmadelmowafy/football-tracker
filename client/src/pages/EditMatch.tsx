@@ -1,35 +1,29 @@
-import { useEffect, useRef, useState, FormEvent } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import logo from '../assets/logo.png';
 import './AddMatch.css';
-
-type Match = {
-  id: number;
-  matchDate: string;
-  homeTeamName: string;
-  awayTeamName: string;
-  homeScore: number;
-  awayScore: number;
-  homeScorers: string;
-  awayScorers: string;
-  homeTeamPossession: number;
-  awayTeamPossession: number;
-  homeTeamShots: number;
-  awayTeamShots: number;
-  homeTeamShotsOnTarget: number;
-  awayTeamShotsOnTarget: number;
-  homeTeamFouls: number;
-  awayTeamFouls: number;
-  homeTeamCorners: number;
-  awayTeamCorners: number;
-  homeTeamOffsides: number;
-  awayTeamOffsides: number;
-};
 
 export default function EditMatch() {
   const { matchId } = useParams();
-  const ref = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
   const [match, setMatch] = useState(null);
+  const [matchDate, setMatchDate] = useState('');
+  const [homeTeamName, setHomeTeamName] = useState('');
+  const [awayTeamName, setAwayTeamName] = useState('');
+  const [homeScore, setHomeScore] = useState(0);
+  const [awayScore, setAwayScore] = useState(0);
+  const [homeTeamPossession, setHomeTeamPossession] = useState(0);
+  const [awayTeamPossession, setAwayTeamPossession] = useState(0);
+  const [homeTeamShots, setHomeTeamShots] = useState(0);
+  const [awayTeamShots, setAwayTeamShots] = useState(0);
+  const [homeTeamShotsOnTarget, setHomeTeamShotsOnTarget] = useState(0);
+  const [awayTeamShotsOnTarget, setAwayTeamShotsOnTarget] = useState(0);
+  const [homeTeamFouls, setHomeTeamFouls] = useState(0);
+  const [awayTeamFouls, setAwayTeamFouls] = useState(0);
+  const [homeTeamCorners, setHomeTeamCorners] = useState(0);
+  const [awayTeamCorners, setAwayTeamCorners] = useState(0);
+  const [homeTeamOffsides, setHomeTeamOffsides] = useState(0);
+  const [awayTeamOffsides, setAwayTeamOffsides] = useState(0);
 
   useEffect(() => {
     async function fetchMatch() {
@@ -38,53 +32,41 @@ export default function EditMatch() {
         if (!res.ok) throw new Error('Match not found');
         const data = await res.json();
         setMatch(data);
-        populateForm(data);
+        setMatchDate(data.matchDate);
+        setHomeTeamName(data.homeTeamName);
+        setAwayTeamName(data.awayTeamName);
+        setHomeScore(data.homeScore);
+        setAwayScore(data.awayScore);
+        setHomeTeamPossession(data.homeTeamPossession);
+        setAwayTeamPossession(data.awayTeamPossession);
+        setHomeTeamShots(data.homeTeamShots);
+        setAwayTeamShots(data.awayTeamShots);
+        setHomeTeamShotsOnTarget(data.homeTeamShotsOnTarget);
+        setAwayTeamShotsOnTarget(data.awayTeamShotsOnTarget);
+        setHomeTeamFouls(data.homeTeamFouls);
+        setAwayTeamFouls(data.awayTeamFouls);
+        setHomeTeamCorners(data.homeTeamCorners);
+        setAwayTeamCorners(data.awayTeamCorners);
+        setHomeTeamOffsides(data.homeTeamOffsides);
+        setAwayTeamOffsides(data.awayTeamOffsides);
+        populateScorers('home', data.homeScorers);
+        populateScorers('away', data.awayScorers);
       } catch (err) {
         console.error(err);
         alert('Could not load match.');
       }
     }
 
-    function populateForm(match: Match) {
-      if (!ref.current) return;
+    function populateScorers(team: string, scorersString: string) {
+      const scorerInfoContainer = document.getElementById(`${team}-scorers`);
 
-      const form = ref.current;
-      form.matchDate.value = match.matchDate;
-      form.homeTeam.value = match.homeTeamName;
-      form.awayTeam.value = match.awayTeamName;
-      form.homeScore.value = match.homeScore;
-      form.awayScore.value = match.awayScore;
+      const scorers = scorersString.split(',').map((s) => s.trim());
+      scorers.forEach((scorer) => {
+        const [name, minSymbol] = scorer.split(' ');
+        const min = minSymbol.replace("'", '') || ''; // if scorer is null
 
-      form.homeTeamPossession.value = match.homeTeamPossession;
-      form.awayTeamPossession.value = match.awayTeamPossession;
-      form.homeTeamShots.value = match.homeTeamShots;
-      form.awayTeamShots.value = match.awayTeamShots;
-      form.homeTeamShotsOnTarget.value = match.homeTeamShotsOnTarget;
-      form.awayTeamShotsOnTarget.value = match.awayTeamShotsOnTarget;
-      form.homeTeamFouls.value = match.homeTeamFouls;
-      form.awayTeamFouls.value = match.awayTeamFouls;
-      form.homeTeamCorners.value = match.homeTeamCorners;
-      form.awayTeamCorners.value = match.awayTeamCorners;
-      form.homeTeamOffsides.value = match.homeTeamOffsides;
-      form.awayTeamOffsides.value = match.awayTeamOffsides;
-
-      populateScorers('home', match.homeScorers);
-      populateScorers('away', match.awayScorers);
-    }
-
-    function populateScorers(team: string, scorerString: string) {
-      const container = document.getElementById(`${team}-scorers`);
-      if (!container) return;
-
-      container.innerHTML = '';
-
-      const scorers = scorerString.split(',').map((s) => s.trim());
-      scorers.forEach((entry) => {
-        const [name, minuteRaw] = entry.split(' ');
-        const minute = minuteRaw?.replace("'", '') || '';
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'scorer-info';
+        const scorerInfo = document.createElement('div');
+        scorerInfo.className = 'scorer-info';
 
         const nameInput = document.createElement('input');
         nameInput.name = `${team}Scorer`;
@@ -94,17 +76,19 @@ export default function EditMatch() {
         const minInput = document.createElement('input');
         minInput.name = `${team}Minute`;
         minInput.placeholder = 'min';
-        minInput.value = minute;
+        minInput.value = min;
 
         const removeButton = document.createElement('button');
         removeButton.textContent = '❌';
         removeButton.className = 'remove-scorer-button';
-        removeButton.onclick = () => container.removeChild(wrapper);
+        removeButton.onclick = () =>
+          scorerInfoContainer?.removeChild(scorerInfo);
 
-        wrapper.appendChild(removeButton);
-        wrapper.appendChild(nameInput);
-        wrapper.appendChild(minInput);
-        container.appendChild(wrapper);
+        scorerInfo.appendChild(removeButton);
+        scorerInfo.appendChild(nameInput);
+        scorerInfo.appendChild(minInput);
+
+        scorerInfoContainer?.appendChild(scorerInfo);
       });
     }
 
@@ -124,6 +108,7 @@ export default function EditMatch() {
 
     const minInput = document.createElement('input');
     minInput.name = `${team}Minute`;
+    minInput.type = 'number';
     minInput.placeholder = 'min';
     minInput.required = true;
 
@@ -158,25 +143,25 @@ export default function EditMatch() {
     const formData = new FormData(form);
 
     const matchData = {
-      matchDate: formData.get('matchDate'),
-      homeTeamName: formData.get('homeTeam'),
-      awayTeamName: formData.get('awayTeam'),
-      homeScore: formData.get('homeScore'),
-      awayScore: formData.get('awayScore'),
+      matchDate,
+      homeTeamName,
+      awayTeamName,
+      homeScore,
+      awayScore,
       homeScorers: formatScorers(formData, 'home'),
       awayScorers: formatScorers(formData, 'away'),
-      homeTeamPossession: formData.get('homeTeamPossession'),
-      awayTeamPossession: formData.get('awayTeamPossession'),
-      homeTeamShots: formData.get('homeTeamShots'),
-      awayTeamShots: formData.get('awayTeamShots'),
-      homeTeamShotsOnTarget: formData.get('homeTeamShotsOnTarget'),
-      awayTeamShotsOnTarget: formData.get('awayTeamShotsOnTarget'),
-      homeTeamFouls: formData.get('homeTeamFouls'),
-      awayTeamFouls: formData.get('awayTeamFouls'),
-      homeTeamCorners: formData.get('homeTeamCorners'),
-      awayTeamCorners: formData.get('awayTeamCorners'),
-      homeTeamOffsides: formData.get('homeTeamOffsides'),
-      awayTeamOffsides: formData.get('awayTeamOffsides'),
+      homeTeamPossession,
+      awayTeamPossession,
+      homeTeamShots,
+      awayTeamShots,
+      homeTeamShotsOnTarget,
+      awayTeamShotsOnTarget,
+      homeTeamFouls,
+      awayTeamFouls,
+      homeTeamCorners,
+      awayTeamCorners,
+      homeTeamOffsides,
+      awayTeamOffsides,
     };
 
     try {
@@ -199,22 +184,30 @@ export default function EditMatch() {
   return (
     <div className="add-match-container">
       <h2>Edit Match</h2>
-      <form onSubmit={handleSubmit} ref={ref} className="match-form">
+      <form onSubmit={handleSubmit} className="match-form">
         <div className="match-date-wrapper">
           <label>
             Match Date:
-            <input type="date" name="matchDate" required />
+            <input
+              type="date"
+              name="matchDate"
+              value={matchDate}
+              onChange={(e) => setMatchDate(e.target.value)}
+              required
+            />
           </label>
         </div>
 
         <div className="teams-row">
           <div className="team-box left">
-            <img
-              src="https://banner2.cleanpng.com/20180616/jce/aa60lk12n.webp"
-              alt="home team logo"
-              className="team-logo"
+            <img src={logo} alt="home team logo" className="team-logo" />
+            <input
+              name="homeTeam"
+              placeholder="Home Team"
+              value={homeTeamName}
+              onChange={(e) => setHomeTeamName(e.target.value)}
+              required
             />
-            <input name="homeTeam" placeholder="Home Team" required />
             <div id="home-scorers" className="scorers-box" />
             <button type="button" onClick={() => addScorer('home')}>
               Add Scorer
@@ -222,18 +215,32 @@ export default function EditMatch() {
           </div>
 
           <div className="score-box">
-            <input type="number" name="homeScore" required />
-            <span>-</span>
-            <input type="number" name="awayScore" required />
+            <input
+              type="number"
+              name="homeScore"
+              value={homeScore}
+              onChange={(e) => setHomeScore(Number(e.target.value))}
+              required
+            />
+            <span className="dash-symbol">-</span>
+            <input
+              type="number"
+              name="awayScore"
+              value={awayScore}
+              onChange={(e) => setAwayScore(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="team-box right">
-            <img
-              src="https://banner2.cleanpng.com/20180616/jce/aa60lk12n.webp"
-              alt="away team logo"
-              className="team-logo"
+            <img src={logo} alt="away team logo" className="team-logo" />
+            <input
+              name="awayTeam"
+              placeholder="Away Team"
+              value={awayTeamName}
+              onChange={(e) => setAwayTeamName(e.target.value)}
+              required
             />
-            <input name="awayTeam" placeholder="Away Team" required />
             <div id="away-scorers" className="scorers-box" />
             <button type="button" onClick={() => addScorer('away')}>
               Add Scorer
@@ -243,52 +250,124 @@ export default function EditMatch() {
 
         <div className="match-stats-3col">
           <div className="stat-row">
-            <input name="homeTeamPossession" type="number" required />
+            <input
+              type="number"
+              name="homeTeamPossession"
+              value={homeTeamPossession}
+              onChange={(e) => setHomeTeamPossession(Number(e.target.value))}
+              required
+            />
             <label>Possession</label>
-            <input name="awayTeamPossession" type="number" required />
+            <input
+              type="number"
+              name="awayTeamPossession"
+              value={awayTeamPossession}
+              onChange={(e) => setAwayTeamPossession(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="stat-row">
-            <input name="homeTeamShots" type="number" required />
+            <input
+              type="number"
+              name="homeTeamShots"
+              value={homeTeamShots}
+              onChange={(e) => setHomeTeamShots(Number(e.target.value))}
+              required
+            />
             <label>Shots</label>
-            <input name="awayTeamShots" type="number" required />
+            <input
+              type="number"
+              name="awayTeamShots"
+              value={awayTeamShots}
+              onChange={(e) => setAwayTeamShots(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="stat-row">
-            <input name="homeTeamShotsOnTarget" type="number" required />
+            <input
+              type="number"
+              name="homeTeamShotsOnTarget"
+              value={homeTeamShotsOnTarget}
+              onChange={(e) => setHomeTeamShotsOnTarget(Number(e.target.value))}
+              required
+            />
             <label>Shots on Target</label>
-            <input name="awayTeamShotsOnTarget" type="number" required />
+            <input
+              type="number"
+              name="awayTeamShotsOnTarget"
+              value={awayTeamShotsOnTarget}
+              onChange={(e) => setAwayTeamShotsOnTarget(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="stat-row">
-            <input name="homeTeamFouls" type="number" required />
+            <input
+              type="number"
+              name="homeTeamFouls"
+              value={homeTeamFouls}
+              onChange={(e) => setHomeTeamFouls(Number(e.target.value))}
+              required
+            />
             <label>Fouls</label>
-            <input name="awayTeamFouls" type="number" required />
+            <input
+              type="number"
+              name="awayTeamFouls"
+              value={awayTeamFouls}
+              onChange={(e) => setAwayTeamFouls(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="stat-row">
-            <input name="homeTeamCorners" type="number" required />
+            <input
+              type="number"
+              name="homeTeamCorners"
+              value={homeTeamCorners}
+              onChange={(e) => setHomeTeamCorners(Number(e.target.value))}
+              required
+            />
             <label>Corners</label>
-            <input name="awayTeamCorners" type="number" required />
+            <input
+              type="number"
+              name="awayTeamCorners"
+              value={awayTeamCorners}
+              onChange={(e) => setAwayTeamCorners(Number(e.target.value))}
+              required
+            />
           </div>
 
           <div className="stat-row">
-            <input name="homeTeamOffsides" type="number" required />
+            <input
+              type="number"
+              name="homeTeamOffsides"
+              value={homeTeamOffsides}
+              onChange={(e) => setHomeTeamOffsides(Number(e.target.value))}
+              required
+            />
             <label>Offsides</label>
-            <input name="awayTeamOffsides" type="number" required />
+            <input
+              type="number"
+              name="awayTeamOffsides"
+              value={awayTeamOffsides}
+              onChange={(e) => setAwayTeamOffsides(Number(e.target.value))}
+              required
+            />
           </div>
         </div>
 
         <div className="btn-container">
           <button type="submit" className="save-btn">
-            SAVE CHANGES
+            Update
           </button>
 
           <button
             type="button"
             className="cancel-btn"
             onClick={() => navigate('/matches')}>
-            CANCEL
+            Cancel
           </button>
         </div>
       </form>

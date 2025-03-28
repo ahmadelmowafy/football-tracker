@@ -1,9 +1,9 @@
-import { FormEvent, useRef } from 'react';
+import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
 import './AddMatch.css';
 
 export default function AddMatch() {
-  const ref = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
   function addScorer(team: string) {
@@ -19,6 +19,7 @@ export default function AddMatch() {
 
     const minInput = document.createElement('input');
     minInput.name = `${team}Minute`;
+    minInput.type = 'number';
     minInput.placeholder = 'min';
     minInput.required = true;
 
@@ -37,7 +38,7 @@ export default function AddMatch() {
   function formatScorers(formData: FormData, team: string) {
     const names = formData.getAll(`${team}Scorer`);
     const minutes = formData.getAll(`${team}Minute`);
-    const scorers: string[] = [];
+    const scorers = [];
 
     for (let i = 0; i < names.length; i++) {
       if (names[i] && minutes[i]) {
@@ -98,7 +99,7 @@ export default function AddMatch() {
   return (
     <div className="add-match-container">
       <h2>Add New Match</h2>
-      <form onSubmit={handleSubmit} ref={ref} className="match-form">
+      <form onSubmit={handleSubmit} className="match-form">
         <div className="match-date-wrapper">
           <label>
             Match Date:
@@ -107,11 +108,7 @@ export default function AddMatch() {
         </div>
         <div className="teams-row">
           <div className="team-box left">
-            <img
-              src="https://banner2.cleanpng.com/20180616/jce/aa60lk12n.webp"
-              alt="home team logo"
-              className="team-logo"
-            />
+            <img src={logo} alt="home team logo" className="team-logo" />
             <input name="homeTeam" placeholder="Home Team" required />
             <div id="home-scorers" className="scorers-box" />
             <button type="button" onClick={() => addScorer('home')}>
@@ -121,16 +118,12 @@ export default function AddMatch() {
 
           <div className="score-box">
             <input type="number" name="homeScore" placeholder="0" required />
-            <span>-</span>
+            <span className="dash-symbol">-</span>
             <input type="number" name="awayScore" placeholder="0" required />
           </div>
 
           <div className="team-box right">
-            <img
-              src="https://banner2.cleanpng.com/20180616/jce/aa60lk12n.webp"
-              alt="away team logo"
-              className="team-logo"
-            />
+            <img src={logo} alt="away team logo" className="team-logo" />
             <input name="awayTeam" placeholder="Away Team" required />
             <div id="away-scorers" className="scorers-box" />
             <button type="button" onClick={() => addScorer('away')}>
@@ -179,14 +172,14 @@ export default function AddMatch() {
 
         <div className="btn-container">
           <button type="submit" className="save-btn">
-            SAVE
+            Save
           </button>
 
           <button
             type="button"
             className="cancel-btn"
             onClick={() => navigate('/matches')}>
-            CANCEL
+            Cancel
           </button>
         </div>
       </form>
