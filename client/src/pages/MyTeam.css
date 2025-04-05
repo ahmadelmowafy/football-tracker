@@ -57,13 +57,8 @@ button[type='button'] {
   cursor: pointer;
 }
 
-button[type='submit']:disabled {
-  background-color: #999;
-  cursor: not-allowed;
-}
-
 .error-msg {
-  color: crimson;
+  color: red;
   font-weight: bold;
   text-align: center;
 }
@@ -72,4 +67,32 @@ button[type='submit']:disabled {
   color: green;
   font-weight: bold;
   text-align: center;
+}
+
+.fill-btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+  background-color: #6c7ae0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.clear-btn {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: white;
+  background-color: #d9534f;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }

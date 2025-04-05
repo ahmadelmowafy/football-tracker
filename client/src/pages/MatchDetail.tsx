@@ -47,6 +47,18 @@ export default function MatchDetail() {
 
   if (!match) return <p>Loading match...</p>;
 
+  function splitScorers(scorerString: string): string[] {
+    return scorerString
+      ? scorerString
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+  }
+
+  const homeScorers = splitScorers(match.homeScorers);
+  const awayScorers = splitScorers(match.awayScorers);
+
   return (
     <div className="match-detail-container">
       <h2>Match Detail</h2>
@@ -65,16 +77,30 @@ export default function MatchDetail() {
 
         <p className="match-date">{match.matchDate}</p>
 
-        {(match.homeScorers || match.awayScorers) && (
-          <p className="scorers-line">
-            {match.homeScorers}
-            {match.homeScorers && match.awayScorers && ', '}
-            {match.awayScorers}
-          </p>
-        )}
+        <div className="scorers-columns">
+          <div className="scorer-col left">
+            <ul>
+              {homeScorers.length === 0 ? (
+                <li>—</li>
+              ) : (
+                homeScorers.map((scorer, i) => <li key={i}>{scorer}</li>)
+              )}
+            </ul>
+          </div>
+
+          <div className="scorer-col right">
+            <ul>
+              {awayScorers.length === 0 ? (
+                <li>—</li>
+              ) : (
+                awayScorers.map((scorer, i) => <li key={i}>{scorer}</li>)
+              )}
+            </ul>
+          </div>
+        </div>
 
         <div className="stats-box">
-          <h4>Stats</h4>
+          <h4 style={{ fontWeight: 'bold' }}>Stats</h4>
           <div className="stat-row">
             <span>{match.homeTeamPossession}%</span>
             <label>Possession</label>

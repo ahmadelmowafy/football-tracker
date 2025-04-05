@@ -10,24 +10,89 @@ type Player = {
 
 export default function MyTeam() {
   const [teamName, setTeamName] = useState('');
-  const [players, setPlayers] = useState<Player[]>([]);
+  const [players, setPlayers] = useState<Player[]>(
+    Array.from({ length: 11 }, () => ({
+      name: '',
+      number: 0,
+      country: '',
+      position: '',
+    }))
+  );
   const [error, setError] = useState('');
   const [successful, setSuccessful] = useState('');
 
-  function handleAddPlayer() {
-    if (players.length >= 11) {
-      setError('You can only add up to 11 players');
-      return;
-    }
-    setPlayers([
-      ...players,
-      { name: '', number: 0, country: '', position: '' },
-    ]);
-    setError('');
-  }
+  function fillPlayers() {
+    const samplePlayers: Player[] = [
+      {
+        name: 'Alisson',
+        number: 1,
+        country: 'Brazil',
+        position: 'Goalkeeper',
+      },
+      {
+        name: 'Robertson',
+        number: 26,
+        country: 'Scotland',
+        position: 'Defender',
+      },
+      {
+        name: 'Virgil van Dijk',
+        number: 4,
+        country: 'Netherlands',
+        position: 'Defender',
+      },
+      {
+        name: 'Rúben Dias',
+        number: 3,
+        country: 'Portugal',
+        position: 'Defender',
+      },
+      {
+        name: 'João Cancelo',
+        number: 17,
+        country: 'Portugal',
+        position: 'Defender',
+      },
+      {
+        name: 'Luka Modrić',
+        number: 15,
+        country: 'Croatia',
+        position: 'Midfielder',
+      },
+      {
+        name: 'De Bruyne',
+        number: 8,
+        country: 'Belgium',
+        position: 'Midfielder',
+      },
+      {
+        name: 'Bellingham',
+        number: 5,
+        country: 'England',
+        position: 'Midfielder',
+      },
+      {
+        name: 'Kylian Mbappé',
+        number: 7,
+        country: 'France',
+        position: 'Forward',
+      },
+      {
+        name: 'Erling Haaland',
+        number: 9,
+        country: 'Norway',
+        position: 'Forward',
+      },
+      {
+        name: 'Lionel Messi',
+        number: 10,
+        country: 'Argentina',
+        position: 'Forward',
+      },
+    ];
 
-  function handleRemovePlayer(index: number) {
-    setPlayers(players.filter((_, i) => i !== index));
+    setPlayers(samplePlayers);
+    setTeamName('Dream XI');
   }
 
   function handlePlayerChange(
@@ -47,12 +112,12 @@ export default function MyTeam() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const token = localStorage.getItem('token');
-    const userJson = localStorage.getItem('user');
-    if (!token || !userJson) {
+    const userJSON = localStorage.getItem('user');
+    if (!token || !userJSON) {
       setError('You must be signed in to create a team');
       return;
     }
-    const user = JSON.parse(userJson);
+    const user = JSON.parse(userJSON);
 
     try {
       const res = await fetch('/api/teams', {
@@ -88,6 +153,9 @@ export default function MyTeam() {
   return (
     <div className="my-team-container">
       <h2>Create Your Team</h2>
+      <button className="fill-btn" onClick={fillPlayers}>
+        Fill with Sample Players
+      </button>
       <form onSubmit={handleSubmit} className="team-form">
         <label className="team-name">
           Team Name
@@ -140,15 +208,8 @@ export default function MyTeam() {
                 }
                 required
               />
-              <button type="button" onClick={() => handleRemovePlayer(index)}>
-                Delete
-              </button>
             </div>
           ))}
-
-          <button type="button" onClick={handleAddPlayer}>
-            Add Player
-          </button>
         </div>
 
         {error && <p className="error-msg">{error}</p>}

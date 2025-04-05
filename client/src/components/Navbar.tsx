@@ -64,7 +64,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <ul className="nav-list">
+      <ul className="nav-list nav-left">
         <li>
           <Link to="/" className="nav-link">
             Football Tracker
@@ -80,6 +80,9 @@ export default function Navbar() {
             Matches
           </button>
         </li>
+      </ul>
+
+      <ul className="nav-list nav-right">
         <li className="auth-link">
           {isLoggedIn ? (
             <button onClick={handleSignOut} className="signout-link">

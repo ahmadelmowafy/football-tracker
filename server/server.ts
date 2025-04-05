@@ -37,15 +37,6 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  try {
-    decodeURIComponent(req.path);
-    next();
-  } catch (error) {
-    res.status(400).json({ error: 'Bad Request: Malformed URL' });
-  }
-});
-
 // Registration endpoint
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {

@@ -3,8 +3,17 @@
   margin: 4rem auto;
   padding: 2rem;
   background-color: #f4f4f4;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #222;
 }
 
 .auth-form {
@@ -18,6 +27,7 @@
   flex-direction: column;
   font-weight: 500;
   color: #333;
+  text-align: left;
 }
 
 .auth-form input {
@@ -27,7 +37,7 @@
   font-size: 1rem;
 }
 
-.auth-form button {
+.auth-form button[type='submit'] {
   padding: 0.6rem;
   background-color: #4c66c3;
   color: white;
@@ -38,13 +48,13 @@
   transition: background-color 0.2s ease;
 }
 
-.auth-form button:hover {
+.auth-form button[type='submit']:hover {
   background-color: #3b54a1;
 }
 
 .auth-link {
+  margin-top: 0.5rem;
   font-size: 0.95rem;
-  text-align: center;
 }
 
 .auth-link a {
@@ -56,6 +66,18 @@
 .auth-error {
   color: red;
   font-size: 0.95rem;
-  text-align: center;
-  margin: -0.5rem 0 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.guest-btn {
+  margin-top: 1.25rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  background-color: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
