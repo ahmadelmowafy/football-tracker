@@ -13,6 +13,7 @@ type Player = {
 type Team = {
   id: number;
   name: string;
+  userId: number;
 };
 
 export default function TeamView() {

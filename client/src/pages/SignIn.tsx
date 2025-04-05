@@ -8,6 +8,26 @@ export default function SignIn() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  async function handleGuestSignIn() {
+    try {
+      const res = await fetch('/api/auth/sign-in', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: 'guest_user', password: 'guestpass' }),
+      });
+
+      if (!res.ok) throw new Error('Guest login failed');
+
+      const { token, user } = await res.json();
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+
+      navigate('/');
+    } catch (err: any) {
+      setError('Could not sign in as guest');
+    }
+  }
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -59,6 +79,9 @@ export default function SignIn() {
           New user? <Link to="/sign-up">Create an account</Link>
         </p>
       </form>
+      <button type="button" className="guest-btn" onClick={handleGuestSignIn}>
+        Continue as Guest
+      </button>
     </div>
   );
 }

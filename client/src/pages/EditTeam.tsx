@@ -48,42 +48,34 @@ export default function EditTeam() {
     setPlayers(updated);
   }
 
-  function handleAddPlayer() {
-    if (players.length >= 11) {
-      setError('Maximum 11 players allowed');
-      return;
-    }
+  function deletePlayers() {
     setPlayers([
-      ...players,
-      { name: '', number: 0, country: '', position: '' },
+      ...Array.from({ length: 11 }, () => ({
+        name: '',
+        number: 0,
+        country: '',
+        position: '',
+      })),
     ]);
-  }
-
-  function handleRemovePlayer(index: number) {
-    setPlayers(players.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     try {
-      // Update team name
       await fetch(`/api/teams/${teamId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: teamName }),
       });
 
-      // Update or insert players
       for (const player of players) {
         if (player.id) {
-          // Existing player: update
           await fetch(`/api/players/${player.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(player),
           });
         } else {
-          // New player: insert
           await fetch(`/api/players`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -104,6 +96,9 @@ export default function EditTeam() {
   return (
     <div className="my-team-container">
       <h2>Edit Team</h2>
+      <button className="clear-btn" onClick={deletePlayers}>
+        Clear Players
+      </button>
       <form onSubmit={handleSubmit} className="team-form">
         <label>
           Team Name
@@ -155,19 +150,8 @@ export default function EditTeam() {
                 }
                 required
               />
-              <button
-                type="button"
-                onClick={() => handleRemovePlayer(index)}
-                className="remove-btn">
-                Delete
-              </button>
             </div>
           ))}
-          {players.length < 11 && (
-            <button type="button" onClick={handleAddPlayer}>
-              Add Player
-            </button>
-          )}
         </div>
 
         {error && <p className="error-msg">{error}</p>}

@@ -56,12 +56,16 @@ export default function Matches() {
 
   return (
     <div className="matches-page">
-      <h2>Matches</h2>
+      <h2 style={{ color: '#ddd' }}>Matches</h2>
       <button
         className="add-match-button"
         onClick={() => navigate('/add-match')}>
         Add New Match
       </button>
+
+      {matches.length === 0 && (
+        <p style={{ fontSize: 22, color: '#ddd' }}>No records.</p>
+      )}
 
       <ul className="match-list">
         {matches.map((match) => (
